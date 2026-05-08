@@ -20,18 +20,30 @@ function Tracker() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       setLoading(true);
+
       const token = localStorage.getItem("token");
+
       const response = await axios.post(
         "http://127.0.0.1:5000/save-cycle",
         formData,
         {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
       );
+
       setMessage(response.data.message);
-      setFormData({ cycleLength: "", periodDate: "", symptoms: "" });
+
+      setFormData({
+        cycleLength: "",
+        periodDate: "",
+        symptoms: ""
+      });
+
     } catch (error) {
       setMessage(error.response?.data?.message || "Failed to save cycle");
     } finally {
@@ -40,190 +52,413 @@ function Tracker() {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <div style={styles.headerContainer}>
-          <span style={styles.icon}>📅</span>
-          <h2 style={styles.heading}>Track Your Cycle</h2>
-          <p style={styles.subHeading}>Keeping a log helps AI provide better insights.</p>
+    <div style={styles.pageWrapper}>
+      
+      <style>
+        {`
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          @keyframes float {
+            0% {
+              transform: translateY(0px);
+            }
+            50% {
+              transform: translateY(-20px);
+            }
+            100% {
+              transform: translateY(0px);
+            }
+          }
+
+          @keyframes glow {
+            0% {
+              transform: scale(1);
+              opacity: 0.6;
+            }
+            50% {
+              transform: scale(1.1);
+              opacity: 1;
+            }
+            100% {
+              transform: scale(1);
+              opacity: 0.6;
+            }
+          }
+
+          @keyframes pulseButton {
+            0% {
+              box-shadow: 0 0 0px rgba(236,72,153,0.5);
+            }
+            50% {
+              box-shadow: 0 0 25px rgba(236,72,153,0.8);
+            }
+            100% {
+              box-shadow: 0 0 0px rgba(236,72,153,0.5);
+            }
+          }
+
+          .animate-fade {
+            animation: fadeInUp 0.8s ease forwards;
+          }
+
+          .floating {
+            animation: float 5s ease-in-out infinite;
+          }
+
+          .glow {
+            animation: glow 6s ease-in-out infinite;
+          }
+
+          .pulse-btn {
+            animation: pulseButton 3s infinite;
+          }
+
+          .input-focus:focus {
+            border-color: #ec4899 !important;
+            box-shadow: 0 0 15px rgba(236,72,153,0.3);
+          }
+        `}
+      </style>
+
+      {/* Background Glow Effects */}
+      <div style={styles.bgGlow1} className="glow"></div>
+      <div style={styles.bgGlow2} className="glow"></div>
+
+      <div style={styles.mainContainer} className="animate-fade">
+
+        {/* Hero Section */}
+        <div style={styles.heroSection}>
+          
+          <div style={styles.heroContent}>
+            <span style={styles.heroIcon} className="floating">
+              🌸
+            </span>
+
+            <h1 style={styles.heroTitle}>
+              Track Your <br />
+              <span style={styles.heroAccent}>Flow & Rhythm</span>
+            </h1>
+
+            <p style={styles.heroText}>
+              Consistent logging helps predict your cycle accurately and
+              monitor your wellness journey beautifully.
+            </p>
+          </div>
+
+          {/* Floating Decorative Shapes */}
+          <div style={styles.circle1} className="floating"></div>
+          <div style={styles.circle2} className="floating"></div>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          {/* Cycle Length */}
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>Average Cycle Length</label>
-            <input
-              type="number"
-              name="cycleLength"
-              value={formData.cycleLength}
-              onChange={handleChange}
-              placeholder="e.g. 28 days"
-              style={styles.input}
-              required
-            />
-          </div>
+        {/* Form Section */}
+        <div style={styles.formSection}>
+          <div style={styles.formContainer}>
 
-          {/* Period Start Date */}
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>When did your last period start?</label>
-            <input
-              type="date"
-              name="periodDate"
-              value={formData.periodDate}
-              onChange={handleChange}
-              style={styles.input}
-              required
-            />
-          </div>
+            <h2 style={styles.formHeading}>
+              Health Log
+            </h2>
 
-          {/* Symptoms */}
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>How are you feeling?</label>
-            <textarea
-              name="symptoms"
-              value={formData.symptoms}
-              onChange={handleChange}
-              placeholder="Cramps, moods, energy levels..."
-              style={styles.textarea}
-            />
-          </div>
+            <p style={styles.formSubheading}>
+              Update your latest cycle details below
+            </p>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            style={loading ? {...styles.button, opacity: 0.7} : styles.button}
-            disabled={loading}
-          >
-            {loading ? "Recording..." : "Save My Data"}
-          </button>
-        </form>
+            <form onSubmit={handleSubmit}>
 
-        {message && (
-          <div style={styles.messageBox}>
-            <p style={styles.messageText}>{message}</p>
+              <div style={styles.inputGroup}>
+                <label style={styles.label}>
+                  Average Cycle Length
+                </label>
+
+                <input
+                  type="number"
+                  name="cycleLength"
+                  value={formData.cycleLength}
+                  onChange={handleChange}
+                  placeholder="e.g. 28"
+                  style={styles.input}
+                  className="input-focus"
+                  required
+                />
+              </div>
+
+              <div style={styles.inputGroup}>
+                <label style={styles.label}>
+                  Last Period Start Date
+                </label>
+
+                <input
+                  type="date"
+                  name="periodDate"
+                  value={formData.periodDate}
+                  onChange={handleChange}
+                  style={styles.input}
+                  className="input-focus"
+                  required
+                />
+              </div>
+
+              <div style={styles.inputGroup}>
+                <label style={styles.label}>
+                  Symptoms & Mood
+                </label>
+
+                <textarea
+                  name="symptoms"
+                  value={formData.symptoms}
+                  onChange={handleChange}
+                  placeholder="How are you feeling today?"
+                  style={styles.textarea}
+                  className="input-focus"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                style={
+                  loading
+                    ? { ...styles.button, opacity: 0.7 }
+                    : styles.button
+                }
+                className="pulse-btn"
+              >
+                {loading ? "Saving..." : "Record Data"}
+              </button>
+
+            </form>
+
+            {message && (
+              <div style={styles.messageBox}>
+                <p style={styles.messageText}>
+                  {message}
+                </p>
+              </div>
+            )}
+
           </div>
-        )}
+        </div>
+
       </div>
     </div>
   );
 }
 
-export default Tracker;
-
 const styles = {
-  container: {
+  pageWrapper: {
     minHeight: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "linear-gradient(135deg, #FDF2F5 0%, #F8E7ED 100%)",
-    padding: "20px",
-    fontFamily: "'Poppins', sans-serif",
+    background:
+      "linear-gradient(135deg, #2e1065 0%, #581c87 50%, #be185d 100%)",
+    fontFamily: "'Inter', sans-serif",
+    overflow: "hidden",
+    position: "relative",
+    padding: "20px"
   },
 
-  card: {
-    width: "100%",
-    maxWidth: "480px",
-    background: "rgba(255, 255, 255, 0.85)",
-    backdropFilter: "blur(12px)",
+  bgGlow1: {
+    position: "absolute",
+    width: "400px",
+    height: "400px",
+    background: "rgba(236,72,153,0.25)",
+    borderRadius: "50%",
+    filter: "blur(100px)",
+    top: "-100px",
+    left: "-100px"
+  },
+
+  bgGlow2: {
+    position: "absolute",
+    width: "350px",
+    height: "350px",
+    background: "rgba(168,85,247,0.25)",
+    borderRadius: "50%",
+    filter: "blur(100px)",
+    bottom: "-100px",
+    right: "-100px"
+  },
+
+  mainContainer: {
+    width: "1100px",
+    minHeight: "680px",
+    display: "flex",
+    borderRadius: "32px",
+    overflow: "hidden",
+    backdropFilter: "blur(20px)",
+    background: "rgba(255,255,255,0.08)",
+    border: "1px solid rgba(255,255,255,0.15)",
+    boxShadow: "0 25px 50px rgba(0,0,0,0.3)"
+  },
+
+  heroSection: {
+    flex: 1.1,
+    position: "relative",
+    padding: "60px",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    background:
+      "linear-gradient(135deg, rgba(168,85,247,0.3), rgba(236,72,153,0.25))",
+    overflow: "hidden"
+  },
+
+  heroContent: {
+    position: "relative",
+    zIndex: 2
+  },
+
+  heroIcon: {
+    fontSize: "60px",
+    display: "inline-block",
+    marginBottom: "20px"
+  },
+
+  heroTitle: {
+    fontSize: "52px",
+    color: "#fff",
+    fontWeight: "800",
+    lineHeight: "1.1",
+    marginBottom: "24px"
+  },
+
+  heroAccent: {
+    color: "#f9a8d4"
+  },
+
+  heroText: {
+    fontSize: "17px",
+    color: "rgba(255,255,255,0.8)",
+    lineHeight: "1.8",
+    maxWidth: "420px"
+  },
+
+  circle1: {
+    position: "absolute",
+    top: "50px",
+    right: "50px",
+    width: "140px",
+    height: "140px",
+    background: "rgba(255,255,255,0.12)",
+    borderRadius: "50%",
+    backdropFilter: "blur(10px)"
+  },
+
+  circle2: {
+    position: "absolute",
+    bottom: "50px",
+    left: "30px",
+    width: "220px",
+    height: "220px",
+    background: "rgba(255,255,255,0.08)",
+    borderRadius: "50%",
+    backdropFilter: "blur(10px)"
+  },
+
+  formSection: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     padding: "40px",
-    borderRadius: "24px",
-    boxShadow: "0 15px 35px rgba(255, 133, 162, 0.15)",
-    border: "1px solid rgba(255, 255, 255, 0.6)",
+    background: "rgba(255,255,255,0.06)",
+    backdropFilter: "blur(25px)"
   },
 
-  headerContainer: {
-    textAlign: "center",
-    marginBottom: "30px",
+  formContainer: {
+    width: "100%",
+    maxWidth: "420px"
   },
 
-  icon: {
-    fontSize: "40px",
-    display: "block",
-    marginBottom: "10px",
-  },
-
-  heading: {
-    margin: 0,
-    fontSize: "28px",
-    color: "#4A4A4A",
+  formHeading: {
+    fontSize: "34px",
     fontWeight: "700",
+    color: "#fff",
+    marginBottom: "10px"
   },
 
-  subHeading: {
-    fontSize: "14px",
-    color: "#888",
-    marginTop: "5px",
+  formSubheading: {
+    color: "rgba(255,255,255,0.7)",
+    marginBottom: "35px"
   },
 
   inputGroup: {
-    marginBottom: "22px"
+    marginBottom: "24px"
   },
 
   label: {
     display: "block",
-    marginBottom: "10px",
+    marginBottom: "8px",
+    color: "#fbcfe8",
     fontWeight: "600",
-    color: "#666",
-    fontSize: "14px",
-    paddingLeft: "4px",
+    fontSize: "14px"
   },
 
   input: {
     width: "100%",
-    padding: "14px 18px",
+    padding: "16px",
     borderRadius: "14px",
-    border: "1px solid rgba(255, 133, 162, 0.3)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    background: "rgba(255,255,255,0.08)",
+    color: "#fff",
     fontSize: "15px",
-    background: "#fff",
     outline: "none",
     boxSizing: "border-box",
-    transition: "all 0.3s ease",
-    color: "#4A4A4A",
+    transition: "all 0.3s ease"
   },
 
   textarea: {
     width: "100%",
-    minHeight: "110px",
-    padding: "14px 18px",
+    minHeight: "120px",
+    padding: "16px",
     borderRadius: "14px",
-    border: "1px solid rgba(255, 133, 162, 0.3)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    background: "rgba(255,255,255,0.08)",
+    color: "#fff",
     fontSize: "15px",
-    background: "#fff",
     outline: "none",
     resize: "none",
     boxSizing: "border-box",
-    fontFamily: "inherit",
-    color: "#4A4A4A",
+    transition: "all 0.3s ease"
   },
 
   button: {
     width: "100%",
     padding: "16px",
     border: "none",
-    borderRadius: "16px",
-    background: "linear-gradient(110deg, #FF85A2 0%, #FF6B95 100%)",
+    borderRadius: "14px",
+    background:
+      "linear-gradient(135deg, #ec4899 0%, #a855f7 100%)",
     color: "#fff",
+    fontWeight: "700",
     fontSize: "16px",
-    fontWeight: "600",
     cursor: "pointer",
-    boxShadow: "0 8px 20px rgba(255, 107, 149, 0.3)",
-    transition: "transform 0.2s ease",
+    transition: "transform 0.3s ease"
   },
 
   messageBox: {
-    marginTop: "25px",
-    padding: "12px",
+    marginTop: "24px",
+    padding: "14px",
     borderRadius: "12px",
-    background: "rgba(255, 133, 162, 0.1)",
-    border: "1px solid rgba(255, 133, 162, 0.2)",
+    background: "rgba(255,255,255,0.1)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    textAlign: "center"
   },
 
   messageText: {
-    textAlign: "center",
-    color: "#FF6B95",
-    fontWeight: "600",
     margin: 0,
-    fontSize: "14px",
+    color: "#fff",
+    fontWeight: "600"
   }
 };
+
+export default Tracker;
