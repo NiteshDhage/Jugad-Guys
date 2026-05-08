@@ -11,6 +11,7 @@ import PCOSPredict from "../pages/PCOSpredict";
 import Dashboard from "../pages/Dashboard";
 import HealthTips from "../pages/HealthTips"
 import CycleCard from "../components/CycleCard";
+import Login from "../pages/Login";
 
 const AppRoutes = () => {
 
@@ -33,6 +34,7 @@ const AppRoutes = () => {
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/HealthTips" element={<HealthTips />} />
         <Route path="/CycleCard" element={<CycleCard />} />
+        <Route path="/login" element={<Login />} />
         
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
