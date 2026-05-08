@@ -31,3 +31,59 @@ CREATE TABLE cycle_tracker (
     ON DELETE CASCADE
 
 );
+
+
+CREATE TABLE pcod_predictions (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id INT NOT NULL,
+
+    age FLOAT,
+    weight FLOAT,
+    bmi FLOAT,
+    cycle_length FLOAT,
+
+    weight_gain TINYINT,
+    hair_loss TINYINT,
+    pimples TINYINT,
+    stress TINYINT,
+
+    prediction VARCHAR(50),
+    confidence FLOAT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
+
+);
+
+
+CREATE TABLE pcos_predictions (
+
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    user_id INT NOT NULL,
+
+    age FLOAT,
+    weight FLOAT,
+    bmi FLOAT,
+    cycle_length FLOAT,
+
+    hair_growth TINYINT,
+    skin_darkening TINYINT,
+    pimples TINYINT,
+    fast_food TINYINT,
+
+    prediction VARCHAR(50),
+    confidence FLOAT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
+
+);
