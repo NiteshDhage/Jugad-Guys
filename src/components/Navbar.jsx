@@ -1,149 +1,121 @@
-// src/components/Navbar.jsx
-
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
-
   const navigate = useNavigate();
-
   const token = localStorage.getItem("token");
 
-  // ✅ Logout Function
   const handleLogout = () => {
-
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
     navigate("/login");
   };
 
   return (
-
     <nav style={styles.navbar}>
-
-      {/* Logo */}
+      {/* Logo with a soft glow */}
       <div style={styles.logo}>
-        FemCare AI
+        <span style={styles.logoIcon}>🌸</span> FemCare <span style={styles.logoAccent}>AI</span>
       </div>
 
       {/* Navigation Links */}
       <div style={styles.navLinks}>
-
         {token ? (
-
           <>
-            <Link
-              to="/dashboard"
-              style={styles.link}
-            >
-              Dashboard
-            </Link>
-
-            <Link
-              to="/PTracker"
-              style={styles.link}
-            >
-              Period_Tracker
-            </Link>
-
-            <Link
-              to="/CycleHistory"
-              style={styles.link}
-            >
-              Cycle_History
-            </Link>
-
-            <Link
-              to="/PCODpredict"
-              style={styles.link}
-            >
-              PCOD
-            </Link>
-
-            <Link
-              to="/PCOSpredict"
-              style={styles.link}
-            >
-              PCOS
-            </Link>
-            <button
-              onClick={handleLogout}
-              style={styles.logoutBtn}
-            >
+            <Link to="/dashboard" style={styles.link}>Dashboard</Link>
+            <Link to="/PTracker" style={styles.link}>Period Tracker</Link>
+            <Link to="/CycleHistory" style={styles.link}>History</Link>
+            <Link to="/PCOD" style={styles.link}>PCOD</Link>
+            <Link to="/PCOS" style={styles.link}>PCOS</Link>
+            <Link to="/HealthTips" style={styles.link}>Tips</Link>
+            <button onClick={handleLogout} style={styles.logoutBtn}>
               Logout
             </button>
           </>
-
         ) : (
-
           <>
-            <Link
-              to="/login"
-              style={styles.link}
-            >
-              Login
-            </Link>
-
-            <Link
-              to="/signup"
-              style={styles.link}
-            >
-              Signup
-            </Link>
+            <Link to="/login" style={styles.link}>Login</Link>
+            <Link to="/signup" style={styles.signupBtn}>Get Started</Link>
           </>
-
         )}
-
       </div>
-
     </nav>
   );
 }
 
 export default Navbar;
 
-// ✅ Styles
 const styles = {
-
   navbar: {
     width: "100%",
-    height: "70px",
-    background: "#2e7d32",
+    height: "80px",
+    background: "rgba(255, 255, 255, 0.8)", 
+    backdropFilter: "blur(15px)",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "0 40px",
+    padding: "0 10%",
     boxSizing: "border-box",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+    position: "sticky",
+    top: 0,
+    zIndex: 1000,
+    borderBottom: "1px solid rgba(255, 133, 162, 0.2)",
   },
 
   logo: {
-    color: "#fff",
+    color: "#4A4A4A",
     fontSize: "24px",
-    fontWeight: "bold"
+    fontWeight: "700",
+    letterSpacing: "-0.5px",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  },
+
+  logoAccent: {
+    color: "#FF85A2",
+  },
+
+  logoIcon: {
+    fontSize: "28px",
   },
 
   navLinks: {
     display: "flex",
     alignItems: "center",
-    gap: "20px"
+    gap: "30px",
   },
 
   link: {
-    color: "#fff",
+    color: "#666",
     textDecoration: "none",
-    fontSize: "16px",
-    fontWeight: "500"
+    fontSize: "15px",
+    fontWeight: "500",
+    transition: "color 0.3s ease",
+    position: "relative",
   },
 
+  
   logoutBtn: {
-    background: "#fff",
-    color: "#2e7d32",
-    border: "none",
-    padding: "10px 18px",
-    borderRadius: "8px",
+    background: "transparent",
+    color: "#FF6B95",
+    border: "1px solid #FF6B95",
+    padding: "8px 20px",
+    borderRadius: "50px",
     cursor: "pointer",
-    fontWeight: "600"
+    fontWeight: "600",
+    fontSize: "14px",
+    transition: "all 0.3s ease",
+  },
+
+  signupBtn: {
+    background: "linear-gradient(110deg, #FF85A2 0%, #FF6B95 100%)",
+    color: "#fff",
+    textDecoration: "none",
+    padding: "10px 25px",
+    borderRadius: "50px",
+    fontSize: "14px",
+    fontWeight: "600",
+    boxShadow: "0 4px 15px rgba(255, 133, 162, 0.3)",
   }
 };
