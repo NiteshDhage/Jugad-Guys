@@ -10,6 +10,7 @@ import PCODPredict from "../pages/PCODpredict";
 import PCOSPredict from "../pages/PCOSpredict";
 import Dashboard from "../pages/Dashboard";
 import HealthTips from "../pages/HealthTips"
+import CycleCard from "../components/CycleCard";
 
 const AppRoutes = () => {
 
@@ -31,6 +32,8 @@ const AppRoutes = () => {
         <Route path="/PCOS" element={<PCOSPredict />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/HealthTips" element={<HealthTips />} />
+        <Route path="/CycleCard" element={<CycleCard />} />
+        
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </BrowserRouter>
