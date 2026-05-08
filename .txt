@@ -1,0 +1,37 @@
+src/
+│
+├── pages/
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   ├── Signup.jsx
+│   ├── Dashboard.jsx
+│   ├── PeriodTracker.jsx
+│   ├── CycleHistory.jsx
+│   ├── PCOSPredict.jsx
+│   ├── HealthTips.jsx
+│   ├── Profile.jsx
+│   ├── Settings.jsx
+│   ├── NotFound.jsx
+│
+├── components/
+│   ├── Navbar.jsx
+│   ├── Sidebar.jsx
+│   ├── Footer.jsx
+│   ├── ProtectedRoute.jsx
+│   ├── CycleCard.jsx
+│   ├── PredictionCard.jsx
+│   ├── HealthTipCard.jsx
+│   ├── Loader.jsx
+│   ├── StatsCard.jsx
+│
+├── services/
+│   ├── authService.js
+│   ├── api.js
+│   ├── predictionService.js
+│
+├── styles/
+│   ├── global.css
+│   ├── dashboard.css
+│
+├── App.js
+├── index.js
